@@ -28,6 +28,8 @@ public class Monitor {
 			}
 		}
 		fetchedPixels = false;
+		
+		//Kanske ha logiken för att hämta "rätt" pixlar här
 		return pixels;
 	}
 	
