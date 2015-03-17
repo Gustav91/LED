@@ -1,5 +1,7 @@
 package application;
 
+import javafx.scene.image.WritableImage;
+
 public class Monitor {
 	
 	//Shared data
@@ -8,11 +10,17 @@ public class Monitor {
 	//Private attributes
 	private boolean fetchedPixels;
 	
+	//For testing
+	private int width, height;
+	private WritableImage testImg;
 	/**
 	 * Constructor
 	 */
 	public Monitor(){
 		fetchedPixels = false;
+		width = 112;
+		height = 820;
+		testImg = new WritableImage(820, 112);
 	}
 	
 	/**
@@ -40,5 +48,29 @@ public class Monitor {
 	public synchronized void setPixels(byte[] newPixels){
 		pixels = newPixels;
 		fetchedPixels = true;
+	}
+	
+	/*
+	 * Testing purposes
+	 */
+	public synchronized void setWidth(int w){
+		width = w;
+	}
+	public synchronized void setHeight(int h){
+		height = h;
+	}
+	public synchronized int getHeight(){
+		return height;
+	}
+	public synchronized int getWidth(){
+		return width;
+	}
+
+	public synchronized void setTestImage(WritableImage img) {
+		testImg = img;
+		
+	}
+	public synchronized WritableImage getTestImg(){
+		return testImg;
 	}
 }

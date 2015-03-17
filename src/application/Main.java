@@ -24,8 +24,7 @@ public class Main extends Application {
 			 */
 			// Init the gui controller
 			guiController guiCtrl = new guiController();
-			//guiCtrl.setMainApp(this);
-			//guiCtrl.setMonitor(monitor);
+
 			
 			// Load the gui
 			FXMLLoader loader = new FXMLLoader();

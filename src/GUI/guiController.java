@@ -4,6 +4,7 @@ import java.nio.IntBuffer;
 
 import application.Main;
 import application.Monitor;
+import application.TestThread;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -65,6 +66,11 @@ public class guiController {
 	@FXML
 	private void initialize(){
 		monitor = new Monitor();
+		//
+		monitor.setHeight((int)activeImage.getHeight());
+		monitor.setWidth((int)activeImage.getWidth());
+		TestThread testThread = new TestThread(monitor);
+		testThread.start();
 		resizeDisplay(activeImage.getWidth(), activeImage.getHeight());
 		GraphicsContext gc = displayArea.getGraphicsContext2D();
 		GraphicsContext gc2 = testArea.getGraphicsContext2D();
@@ -78,7 +84,7 @@ public class guiController {
 			@Override
 			public void handle(ActionEvent event) {
 				snapshot = displayArea.snapshot(null, snapshot);
-				pixelReader.getPixels(0, 0, (int) snapshot.getWidth(), (int) snapshot.getHeight(), pixelFormat, pixelBuffer, 0, (int) snapshot.getWidth());
+				pixelReader.getPixels(0, 0, (int) snapshot.getWidth(), (int) snapshot.getHeight(), pixelFormat, pixelBuffer, 0, (int) snapshot.getWidth()*4); // <<< hade inte multiplicerat med 4 -.-
 				monitor.setPixels(pixelBuffer);
 				
 				
@@ -115,6 +121,9 @@ public class guiController {
 		this.main = main;
 		monitor = main.getMonitor();
 	}
+	public Monitor getMonitor(){
+		return monitor;
+	}
 	@FXML
 	private void handleStart(){
 			
@@ -125,12 +134,18 @@ public class guiController {
 	 */
 	@FXML
 	private void updateTest(GraphicsContext gc2){
-		WritableImage test = new WritableImage( (int) displayArea.getWidth(), (int) displayArea.getHeight() );
+		/*
+		 * WritableImage test = new WritableImage( (int) displayArea.getWidth(), (int) displayArea.getHeight() );
+		 
 		byte[] wPix = monitor.fetchPixels();
 		System.out.println(wPix.length + " : " + pixelBuffer.length);
 		
 		pixelWriter = test.getPixelWriter();
-		pixelWriter.setPixels(0, 0, (int) test.getWidth(), (int) test.getHeight(), WritablePixelFormat.getByteBgraInstance() , wPix,  0, (int)test.getWidth());
+		pixelWriter.setPixels(0, 0, (int) test.getWidth(), (int) test.getHeight(), WritablePixelFormat.getByteBgraInstance() , wPix,  0, (int)test.getWidth()*4);
 		gc2.drawImage(test,0,0);
+		*/
+		WritableImage test = monitor.getTestImg();
+		gc2.drawImage(test, 0, 0);
+		System.out.println("GAAAAAYYY!!");
 	}
 }
