@@ -41,6 +41,7 @@ public class guiController {
 	@FXML 
 	private Canvas testArea;
 	private PixelWriter pixelWriter;
+	private PixelReader pixelReader;
 	
 	
 	// The pixel format as byte rgb
@@ -63,18 +64,13 @@ public class guiController {
 	 */
 	@FXML
 	private void initialize(){
-		//displayArea.setHeight(activeImage.getHeight());
-		//displayArea.setWidth(activeImage.getWidth());
-		//snapshot = new WritableImage((int) displayArea.getHeight(), (int) displayArea.getWidth())
 		monitor = new Monitor();
 		resizeDisplay(activeImage.getWidth(), activeImage.getHeight());
 		GraphicsContext gc = displayArea.getGraphicsContext2D();
 		GraphicsContext gc2 = testArea.getGraphicsContext2D();
 		gc.drawImage(activeImage, 0, 0);
-		snapshot = displayArea.snapshot(null, snapshot);
-		PixelReader pixelReader = snapshot.getPixelReader();
-		pixelBuffer = new byte[(int) snapshot.getHeight()* (int) snapshot.getWidth()*3];
-		//updateSpeed = Duration.millis(1000/60); // 60 fps
+		pixelReader = snapshot.getPixelReader();
+		pixelBuffer = new byte[(int) snapshot.getHeight()* (int) snapshot.getWidth()*4];
 		frameUpdate = new EventHandler<ActionEvent>() {
 			/*
 			 * Take a snapshot, read the pixels and send them to the monitor
@@ -85,7 +81,6 @@ public class guiController {
 				pixelReader.getPixels(0, 0, (int) snapshot.getWidth(), (int) snapshot.getHeight(), pixelFormat, pixelBuffer, 0, (int) snapshot.getWidth());
 				monitor.setPixels(pixelBuffer);
 				
-			
 				
 				updateTest(gc2);
 			}
@@ -120,16 +115,9 @@ public class guiController {
 		this.main = main;
 		monitor = main.getMonitor();
 	}
-	/*
-	 * Set the reference to the monitor
-	 */
-	public void setMonitor(Monitor monitor){
-		this.monitor = monitor;
-	}
 	@FXML
 	private void handleStart(){
-		
-		
+			
 	}
 
 	/*
@@ -137,10 +125,12 @@ public class guiController {
 	 */
 	@FXML
 	private void updateTest(GraphicsContext gc2){
-		WritableImage test = new WritableImage((int) displayArea.getWidth(), (int) displayArea.getHeight() );
+		WritableImage test = new WritableImage( (int) displayArea.getWidth(), (int) displayArea.getHeight() );
 		byte[] wPix = monitor.fetchPixels();
+		System.out.println(wPix.length + " : " + pixelBuffer.length);
+		
 		pixelWriter = test.getPixelWriter();
-		pixelWriter.setPixels(0, 0, (int) test.getWidth(), (int) test.getHeight(), pixelFormat , wPix,  0, (int) test.getWidth());
+		pixelWriter.setPixels(0, 0, (int) test.getWidth(), (int) test.getHeight(), WritablePixelFormat.getByteBgraInstance() , wPix,  0, (int)test.getWidth());
 		gc2.drawImage(test,0,0);
 	}
 }
