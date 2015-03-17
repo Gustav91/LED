@@ -22,7 +22,7 @@ import javafx.util.Duration;
 
 public class guiController {
 	@FXML
-	private Button placeHolder1;
+	private Button start;
 	
 	@FXML
 	private Button placeHolder2;
@@ -42,9 +42,8 @@ public class guiController {
 	private EventHandler frameUpdate;
 	private Main main;
 	private Monitor monitor;
-	public guiController(Monitor m) {
+	public guiController() {
 		activeImage= new Image("/images/logo.jpg");
-		monitor = m;
 	}
 	/*
 	 * Automatically called at start up
@@ -69,7 +68,7 @@ public class guiController {
 			}
 		};
 		frame = new KeyFrame(updateSpeed , frameUpdate);
-
+		
 	}
 	
 	/*
@@ -82,8 +81,23 @@ public class guiController {
 		
 		
 	}
+	/*
+	 * Set a reference to the main application
+	 * Not sure if needed
+	 */
 	public void setMainApp(Main main){
 		this.main = main;
+	}
+	/*
+	 * Set the reference to the monitor
+	 */
+	public void setMonitor(Monitor monitor){
+		this.monitor = monitor;
+	}
+	@FXML
+	private void handleStart(){
+		
+		
 	}
 
 
