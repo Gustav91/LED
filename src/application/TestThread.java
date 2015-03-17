@@ -21,6 +21,7 @@ public class TestThread extends Thread{
 			pixelWriter.setPixels(0, 0, (int)img.getWidth(), (int)img.getHeight(), WritablePixelFormat.getByteBgraInstance(), pixels, 0, (int)img.getWidth()*4);
 			
 			monitor.setTestImage(img);
+			monitor.setMessage("Im running for my life!");
 			try {
 				sleep(1000/60);
 			} catch (InterruptedException e) {

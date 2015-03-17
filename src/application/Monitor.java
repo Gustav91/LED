@@ -13,6 +13,7 @@ public class Monitor {
 	//For testing
 	private int width, height;
 	private WritableImage testImg;
+	private String testMessage;
 	/**
 	 * Constructor
 	 */
@@ -21,6 +22,7 @@ public class Monitor {
 		width = 112;
 		height = 820;
 		testImg = new WritableImage(820, 112);
+		testMessage = "I am a lazy motherfucker!";
 	}
 	
 	/**
@@ -72,5 +74,11 @@ public class Monitor {
 	}
 	public synchronized WritableImage getTestImg(){
 		return testImg;
+	}
+	public synchronized void setMessage(String m){
+		testMessage = m;
+	}
+	public synchronized String getMessage(){
+		return testMessage;
 	}
 }

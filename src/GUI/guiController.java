@@ -59,18 +59,20 @@ public class guiController {
 	private Monitor monitor;
 	public guiController() {
 		activeImage= new Image("/images/logo.jpg");
+		monitor = new Monitor();
+		TestThread testThread = new TestThread(monitor);
+		testThread.start();
 	}
 	/*
 	 * Automatically called at start up
 	 */
 	@FXML
 	private void initialize(){
-		monitor = new Monitor();
+		
 		//
 		monitor.setHeight((int)activeImage.getHeight());
 		monitor.setWidth((int)activeImage.getWidth());
-		TestThread testThread = new TestThread(monitor);
-		testThread.start();
+
 		resizeDisplay(activeImage.getWidth(), activeImage.getHeight());
 		GraphicsContext gc = displayArea.getGraphicsContext2D();
 		GraphicsContext gc2 = testArea.getGraphicsContext2D();
@@ -119,7 +121,6 @@ public class guiController {
 	 */
 	public void setMainApp(Main main){
 		this.main = main;
-		monitor = main.getMonitor();
 	}
 	public Monitor getMonitor(){
 		return monitor;
@@ -146,6 +147,6 @@ public class guiController {
 		*/
 		WritableImage test = monitor.getTestImg();
 		gc2.drawImage(test, 0, 0);
-		System.out.println("GAAAAAYYY!!");
+		System.out.println(monitor.getMessage());
 	}
 }
