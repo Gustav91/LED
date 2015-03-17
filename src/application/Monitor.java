@@ -50,6 +50,7 @@ public class Monitor {
 	public synchronized void setPixels(byte[] newPixels){
 		pixels = newPixels;
 		fetchedPixels = true;
+		notifyAll();
 	}
 	
 	/*

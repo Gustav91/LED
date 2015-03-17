@@ -87,8 +87,8 @@ public class guiController {
 			public void handle(ActionEvent event) {
 				snapshot = displayArea.snapshot(null, snapshot);
 				pixelReader.getPixels(0, 0, (int) snapshot.getWidth(), (int) snapshot.getHeight(), pixelFormat, pixelBuffer, 0, (int) snapshot.getWidth()*4); // <<< hade inte multiplicerat med 4 -.-
-				monitor.setPixels(pixelBuffer);
 				
+				monitor.setPixels(pixelBuffer);
 				
 				updateTest(gc2);
 			}
@@ -135,18 +135,8 @@ public class guiController {
 	 */
 	@FXML
 	private void updateTest(GraphicsContext gc2){
-		/*
-		 * WritableImage test = new WritableImage( (int) displayArea.getWidth(), (int) displayArea.getHeight() );
-		 
-		byte[] wPix = monitor.fetchPixels();
-		System.out.println(wPix.length + " : " + pixelBuffer.length);
-		
-		pixelWriter = test.getPixelWriter();
-		pixelWriter.setPixels(0, 0, (int) test.getWidth(), (int) test.getHeight(), WritablePixelFormat.getByteBgraInstance() , wPix,  0, (int)test.getWidth()*4);
-		gc2.drawImage(test,0,0);
-		*/
 		WritableImage test = monitor.getTestImg();
 		gc2.drawImage(test, 0, 0);
-		System.out.println(monitor.getMessage());
+		//System.out.println(monitor.getMessage());
 	}
 }
