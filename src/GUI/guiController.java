@@ -50,36 +50,45 @@ public class guiController {
 	 */
 	@FXML
 	private void initialize(){
-		displayArea.setHeight(activeImage.getHeight());
-		displayArea.setWidth(activeImage.getWidth());
-		snapshot = new WritableImage((int) displayArea.getHeight(), (int) displayArea.getWidth());
+		//displayArea.setHeight(activeImage.getHeight());
+		//displayArea.setWidth(activeImage.getWidth());
+		//snapshot = new WritableImage((int) displayArea.getHeight(), (int) displayArea.getWidth());
+		resizeDisplay(activeImage.getWidth(), activeImage.getHeight());
 		GraphicsContext gc = displayArea.getGraphicsContext2D();
 		gc.drawImage(activeImage, 0, 0);
 		snapshot = displayArea.snapshot(null, snapshot);
 		PixelReader pixelReader = snapshot.getPixelReader();
 		pixelBuffer = new byte[(int) snapshot.getHeight()* (int) snapshot.getWidth()*3];
-		updateSpeed = Duration.millis(1000/60); // 60 fps
+		//updateSpeed = Duration.millis(1000/60); // 60 fps
 		frameUpdate = new EventHandler() {
-
+			/*
+			 * Take a snapshot, read the pixels and send them to the monitor
+			 */
 			@Override
 			public void handle(Event event) {
+				snapshot = displayArea.snapshot(null, snapshot);
 				pixelReader.getPixels(0, 0, (int) snapshot.getWidth(), (int) snapshot.getHeight(), pixelFormat, pixelBuffer, 0, (int) snapshot.getWidth());
 				monitor.setPixels(pixelBuffer);
 			}
 		};
-		frame = new KeyFrame(updateSpeed , frameUpdate);
-		
+		setFrameRate(60); //60 fps default
+		//frame = new KeyFrame(updateSpeed , frameUpdate);		
 	}
 	
 	/*
 	 * Resize the display area to the given dimensions
 	 */
-	public void resizeDisplay(double width, double height){
+	private void resizeDisplay(double width, double height){
 		displayArea.setHeight(activeImage.getHeight());
 		displayArea.setWidth(activeImage.getWidth());
-		snapshot = new WritableImage((int) displayArea.getHeight(), (int) displayArea.getWidth());
-		
-		
+		snapshot = new WritableImage((int) displayArea.getHeight(), (int) displayArea.getWidth());				
+	}
+	/*
+	 * Set the frameRate of the animation. Default is 60 fps
+	 */
+	private void setFrameRate(int fps){
+		updateSpeed = Duration.millis(1000/fps);
+		frame = new KeyFrame(updateSpeed, frameUpdate);
 	}
 	/*
 	 * Set a reference to the main application
